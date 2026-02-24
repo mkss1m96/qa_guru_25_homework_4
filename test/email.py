@@ -1,6 +1,5 @@
 import datetime
 
-
 # 1)Создаем словарь email
 email = {
     "subject": "Project collaboration",
@@ -9,7 +8,7 @@ email = {
     "body": "Hello,\nWe are interested in a partnership.\tPlease reply soon.\nRegards,\nTeam",
 }
 
-# Создаю переменную send_date и записываю ее в словарь email
+# Создаем переменную send_date и записываем ее в словарь email
 send_date = datetime.datetime.now().strftime("%Y-%m-%d")
 email["date"] = send_date
 
@@ -24,33 +23,18 @@ login, domain = email["from"].split("@")
 email["short_body"] = email["body"][0:9] + "..."
 
 # Создаём списки доменов
-personal_domains = [
-    "gmail.com",
-    "list.ru",
-    "yahoo.com",
-    "outlook.com",
-    "hotmail.com",
-    "icloud.com",
-    "yandex.ru",
-    "mail.ru",
-    "list.ru",
-    "bk.ru",
-    "inbox.ru",
-]
+all_personal_domains = ['gmail.com', 'list.ru', 'yahoo.com', 'outlook.com', 'hotmail.com', 'icloud.com', 'yandex.ru',
+                        'mail.ru', 'list.ru', 'bk.ru', 'inbox.ru']
+all_corporate_domains = ["company.ru", "corporation.com", "university.edu", "organization.org", "company.ru",
+                         "business.net", ]
 
-corporate_domains = [
-    "company.ru",
-    "corporation.com",
-    "university.edu",
-    "organization.org",
-    "company.ru",
-    "business.net",
-]
+personal_domains = list(set(all_personal_domains))
+
+corporate_domains = list(set(all_corporate_domains))
 
 # Проверяем на отсутствие пересечений в списках доменов
-
-no_intersection = list(set(personal_domains).intersection(set(corporate_domains)))
-assert no_intersection == []
+intersection = list(set(personal_domains).intersection(set(corporate_domains)))
+assert intersection == []
 
 # Проверяем корпоративность отправителя
 is_corporate = domain in corporate_domains
@@ -67,16 +51,16 @@ email["sent_text"] = f"""Кому:{email["to"]}, От:{email["from"]}',
 pages = len(email["sent_text"]) + 499
 
 # Проверка на пустоту
-is_subject_empty = not email["subject"]
-is_body_empty = not email["subject"]
+is_subject_empty = bool(email["subject"])
+is_body_empty = bool(email["subject"])
 
-#Маскирование email
+# Маскирование email
 email["masked_from"] = login[:2] + "***@" + domain
 
 # Удаление доменов
-personal_domains[:] = (value for value in personal_domains if value != "list.ru")
+personal_domains.remove("list.ru")
 personal_domains.remove("bk.ru")
 
 print(email)
-print(is_corporate,pages,is_subject_empty,is_body_empty)
+print(is_corporate, pages, is_subject_empty, is_body_empty)
 print(personal_domains)
