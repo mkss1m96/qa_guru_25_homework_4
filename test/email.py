@@ -51,8 +51,8 @@ email["sent_text"] = f"""Кому:{email["to"]}, От:{email["from"]}',
 pages = len(email["sent_text"]) + 499
 
 # Проверка на пустоту
-is_subject_empty = bool(email["subject"])
-is_body_empty = bool(email["subject"])
+is_subject_empty = not(email["subject"].strip( ))
+is_body_empty = not(email["subject"].strip( ))
 
 # Маскирование email
 email["masked_from"] = login[:2] + "***@" + domain
